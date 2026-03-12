@@ -9,6 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe de gestion de la base de données SQLite.
+ * Gère la création, la mise à jour et les opérations CRUD pour les professionnels et les rendez-vous.
+ */
 public class DataConnect extends SQLiteOpenHelper {
 
     // Configuration de la base de données
@@ -57,6 +61,10 @@ public class DataConnect extends SQLiteOpenHelper {
             + "FOREIGN KEY(" + COL_RDV_ID_PROF + ") REFERENCES " + TABLE_PROFESSIONNEL + "(" + COL_PROF_ID + ")"
             + ")";
 
+    /**
+     * Constructeur de la classe DataConnect.
+     * @param context Contexte de l'application.
+     */
     public DataConnect(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -74,6 +82,17 @@ public class DataConnect extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Insère un nouveau professionnel dans la base de données.
+     * @param nom Nom du professionnel.
+     * @param prenom Prénom du professionnel.
+     * @param type Type ou spécialité.
+     * @param adresse Adresse physique.
+     * @param ville Ville.
+     * @param codePostal Code postal.
+     * @param mail Adresse email.
+     * @param tel Numéro de téléphone.
+     */
     public void insertProfessionnel(String nom, String prenom, String type, String adresse, String ville, String codePostal, String mail, String tel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -90,6 +109,12 @@ public class DataConnect extends SQLiteOpenHelper {
         db.insert(TABLE_PROFESSIONNEL,null,contentValues);
     }
 
+    /**
+     * Enregistre un nouveau rendez-vous.
+     * @param date Date du rendez-vous.
+     * @param heure Heure du rendez-vous.
+     * @param id_prof Identifiant du professionnel associé.
+     */
     public void insertRdv(String date, String heure, int id_prof) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -101,6 +126,11 @@ public class DataConnect extends SQLiteOpenHelper {
         db.insert(TABLE_RENDEZVOUS, null, contentValues);
     }
 
+    /**
+     * Récupère le planning (rendez-vous) pour une date donnée.
+     * @param date La date cible.
+     * @return Un Cursor contenant les détails des rendez-vous.
+     */
     public Cursor getPlanning(String date){
         SQLiteDatabase db = this.getReadableDatabase();
         String rdvDetailsColumn = "rdv_details";
@@ -113,6 +143,12 @@ public class DataConnect extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{date});
     }
 
+    /**
+     * Recherche des médecins par ville et/ou code postal.
+     * @param ville Nom de la ville (optionnel).
+     * @param codePostal Code postal (optionnel).
+     * @return Un Cursor contenant les médecins correspondants.
+     */
     public Cursor getMedecin(String ville, String codePostal){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -141,6 +177,10 @@ public class DataConnect extends SQLiteOpenHelper {
         return db.query(TABLE_PROFESSIONNEL, columns, selection.toString(), args, null, null, COL_PROF_NOM);
     }
 
+    /**
+     * Récupère la liste de tous les médecins enregistrés.
+     * @return Un Cursor contenant tous les professionnels.
+     */
     public Cursor getAllMedecin(){
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT " + COL_PROF_ID + " as _id, * FROM " + TABLE_PROFESSIONNEL, null);

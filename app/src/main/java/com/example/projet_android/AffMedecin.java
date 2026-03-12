@@ -19,6 +19,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
+/**
+ * Activité permettant d'afficher et de filtrer la liste des médecins.
+ * La recherche peut s'effectuer par ville ou par code postal.
+ */
 public class AffMedecin extends AppCompatActivity {
 
     DataConnect db;
@@ -64,6 +68,9 @@ public class AffMedecin extends AppCompatActivity {
         });
     }
 
+    /**
+     * Filtre et affiche les professionnels en fonction de la ville et du code postal saisis.
+     */
     public void affPro(){
         String villeStr = ville.getText().toString().trim();
         String codePostalStr = codePostal.getText().toString().trim();

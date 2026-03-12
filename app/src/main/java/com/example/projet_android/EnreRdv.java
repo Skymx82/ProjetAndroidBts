@@ -24,16 +24,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Activité permettant d'enregistrer un nouveau rendez-vous.
+ * L'utilisateur sélectionne une date sur le calendrier et un médecin dans une liste.
+ */
 public class EnreRdv extends AppCompatActivity {
 
     DataConnect db;
-
     CalendarView calendarRdv;
     String selectedDate;
-
     Button btnEnregistrerRdv, btnNavRdv, btnNavPlanning, btnNavMedecins, btnNavAccueil;
     Spinner spinnerMedecins;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class EnreRdv extends AppCompatActivity {
         btnNavPlanning.setOnClickListener(v -> startActivity(new Intent(EnreRdv.this, AffPlanning.class)));
         btnNavMedecins.setOnClickListener(v -> startActivity(new Intent(EnreRdv.this, AffMedecin.class)));
 
-        // CORRECTION : Standardisation du format de date
+        // Initialisation de la date sélectionnée au format jour/mois/année
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         selectedDate = sdf.format(new Date(calendarRdv.getDate()));
 
@@ -85,6 +86,9 @@ public class EnreRdv extends AppCompatActivity {
         AffMed();
     }
 
+    /**
+     * Charge la liste des médecins depuis la base de données et l'affiche dans le Spinner.
+     */
     private void AffMed(){
         try {
             Cursor data = db.getAllMedecin();
@@ -109,6 +113,9 @@ public class EnreRdv extends AppCompatActivity {
         }
     }
 
+    /**
+     * Enregistre le rendez-vous dans la base de données après vérification de la sélection.
+     */
     public void enreRdv(){
         Cursor selectedMedecin = (Cursor) spinnerMedecins.getSelectedItem();
         if (selectedMedecin == null) {
@@ -117,7 +124,7 @@ public class EnreRdv extends AppCompatActivity {
         }
         int idProf = selectedMedecin.getInt(selectedMedecin.getColumnIndexOrThrow("_id"));
 
-        // Pour l'heure, nous allons utiliser une valeur par défaut
+        // Heure par défaut pour le rendez-vous
         String heureRdv = "10:00";
 
         try {

@@ -12,19 +12,27 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 /**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * Tests instrumentés pour le projet Android.
+ * Ces tests s'exécutent sur un appareil Android ou un émulateur.
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
+    /**
+     * Vérifie que le contexte de l'application est correct.
+     * On s'assure que le nom du package correspond à celui attendu.
+     */
     @Test
     public void useAppContext() {
-        // Context of the app under test.
+        // Contexte de l'application sous test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.example.projet_android", appContext.getPackageName());
     }
 
+    /**
+     * Teste l'ajout d'un nouveau professionnel (médecin) dans la base de données.
+     * On vérifie que le nombre total de médecins augmente de 1 après l'insertion.
+     */
     @Test
     public void testAddMedecin() {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -40,9 +48,14 @@ public class ExampleInstrumentedTest {
         int finalCount = cursorAfter.getCount();
         cursorAfter.close();
 
-        assertEquals(initialCount + 1, finalCount);
+        assertEquals("Le nombre de médecins devrait avoir augmenté de 1", initialCount + 1, finalCount);
     }
 
+    /**
+     * Teste l'enregistrement d'un rendez-vous.
+     * Ce test insère d'abord un médecin, récupère son ID, puis ajoute un rendez-vous
+     * et vérifie sa présence dans le planning à la date donnée.
+     */
     @Test
     public void testAddRdv() {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
@@ -66,6 +79,6 @@ public class ExampleInstrumentedTest {
         int finalCount = cursorAfter.getCount();
         cursorAfter.close();
 
-        assertEquals(initialCount + 1, finalCount);
+        assertEquals("Le nombre de rendez-vous pour cette date devrait avoir augmenté de 1", initialCount + 1, finalCount);
     }
 }

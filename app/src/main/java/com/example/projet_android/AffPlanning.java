@@ -24,7 +24,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-
+/**
+ * Activité affichant le planning des rendez-vous.
+ * L'utilisateur peut sélectionner une date sur le calendrier pour voir
+ * les rendez-vous prévus ce jour-là.
+ */
 public class AffPlanning extends AppCompatActivity {
 
     DataConnect db;
@@ -60,7 +64,7 @@ public class AffPlanning extends AppCompatActivity {
         btnNavPlanning.setOnClickListener(v -> startActivity(new Intent(AffPlanning.this, AffPlanning.class)));
         btnNavMedecins.setOnClickListener(v -> startActivity(new Intent(AffPlanning.this, AffMedecin.class)));
 
-        // CORRECTION : Standardisation du format de date
+        // Initialisation de la date sélectionnée
         final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         selectedDate = sdf.format(new Date(calendarRdv.getDate()));
 
@@ -81,6 +85,9 @@ public class AffPlanning extends AppCompatActivity {
         });
     }
 
+    /**
+     * Récupère et affiche les rendez-vous pour la date sélectionnée.
+     */
     public void afficherRdv(){
         if (selectedDate == null || selectedDate.isEmpty()) {
             Toast.makeText(this, "Veuillez sélectionner une date", Toast.LENGTH_SHORT).show();

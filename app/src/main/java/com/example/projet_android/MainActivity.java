@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -15,14 +14,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+/**
+ * Activité principale de l'application.
+ * Permet l'enregistrement de nouveaux professionnels (médecins, dentistes)
+ * et assure la navigation vers les autres fonctionnalités.
+ */
 public class MainActivity extends AppCompatActivity {
 
     DataConnect db;
-
     EditText nom, prenom, adresse, ville, codePostal, tel, email;
     RadioGroup radioGroupType;
     Button btnEnregistrer, btnNavRdv, btnNavPlanning, btnNavMedecins, btnNavAccueil;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
         btnNavMedecins.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AffMedecin.class)));
     }
 
+    /**
+     * Enregistre un nouveau professionnel dans la base de données.
+     * Récupère les informations saisies dans les champs du formulaire.
+     * @param view La vue qui a déclenché l'appel.
+     */
     public void enrePro(View view){
         String nomStr = nom.getText().toString();
         String prenomStr = prenom.getText().toString();
